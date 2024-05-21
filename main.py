@@ -1,22 +1,27 @@
 import streamlit as st
 import plotly.express as px
+from backend import getData
+
+#Designing the User interface:
 
 st.title("Weather Forecast for the next days")
-place = st.text_input("Place: ")
+loc = st.text_input("Location: ")
 days = st.slider("Forecast Days", min_value = 1, max_value = 5,help = "Select the number of days to forecast")
 options = st.selectbox("Select data to view",("Temperature","Sky"))
-st.subheader(f"{options} for the next {days} in {place}")
+st.subheader(f"{options} for the next {days} in {loc}")
 
+#Getting the weather data:
+if loc:
+    filtered_data = getData(loc,days)
 
-def getData(days):
+#Creating the plot:
 
-    dates = ["25-10-2025","26-10-2025","27-10-2025"]
-    temperatures = [10,11,15]
-    temperatures = [days * i for i in temperatures]
+if options == "Temperature":
+    dates = [dict["main"]["temp"] for dict in filtered_data]
+    temperatures = [dict["dt_txt"] for dict in filtered_data]
+    figure = px.line(x=dates, y=temperatures,labels={"x":"Date", "y":"Temperature (C)"})
+    st.plotly_chart(figure)
 
-    return days,temperatures
-
-
-dates,temperatures = getData(days)
-figure = px.line(x=dates, y=temperatures,labels={"x":"Date", "y":"Temperature (C)"})
-st.plotly_chart(figure)
+elif options == "Sky":
+    filtered_data = [dict["weather"][0]["main"] for dict in filtered_data]
+    st.image()
