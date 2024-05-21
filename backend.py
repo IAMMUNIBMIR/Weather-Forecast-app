@@ -3,9 +3,9 @@ import requests
 API_KEY = "2c766f42316bccfebc9d0af50b2387fd"
 
 
-def getData(location,days):
+def getData(location,days=None):
 
-    url = f"api.openweathermap.org/data/2.5/forecast?q={location}&appid={API_KEY}"
+    url = f"https://api.openweathermap.org/data/2.5/forecast?q={location}&appid={API_KEY}"
     response = requests.get(url)
     data = response.json()
     filtered_data = data["list"]
@@ -17,4 +17,4 @@ def getData(location,days):
 
 
 if __name__ == "__main__":
-    getData()
+    print(getData(loc="Tokyo",days=3))
