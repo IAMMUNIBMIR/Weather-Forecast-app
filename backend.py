@@ -16,5 +16,3 @@ def getData(location,days=None):
     return filtered_data
 
 
-if __name__ == "__main__":
-    print(getData(loc="Tokyo",days=3))
