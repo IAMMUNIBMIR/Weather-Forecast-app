@@ -9,18 +9,38 @@ st.set_page_config(page_title="Weather Forecast", page_icon=":partly_sunny:", la
 st.markdown(
     """
     <style>
-    .main {
-        background-color: #f0f2f6;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+
     .stTextInput > div > input {
         border: 2px solid #1f77b4;
         border-radius: 5px;
+        background-color: #333333;
+        color: white;
     }
+
     .stSlider > div {
         color: #1f77b4;
+    }
+
+    .stSelectbox > div > div {
+        color: white;
+    }
+
+    .stSelectbox > div > div > div {
+        background-color: #333333;
+        color: white;
+    }
+
+    .stButton > button {
+        background-color: #1f77b4;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .stButton > button:hover {
+        background-color: #145a8d;
     }
     </style>
     """,
@@ -51,6 +71,11 @@ if loc:
             labels={"x": "Date", "y": "Temperature (°C)"},
             title=f"Temperature Trend for the Next {days} Days in {loc}"
         )
+        figure.update_layout(
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            font_color='white'
+        )
         st.plotly_chart(figure)
 
     elif options == "Sky":
@@ -60,4 +85,3 @@ if loc:
 
         st.write("Sky Conditions Forecast:")
         st.image(icon_paths, width=110, caption=sky_conditions)
-
