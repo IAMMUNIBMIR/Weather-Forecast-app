@@ -62,26 +62,32 @@ st.subheader(f"{options} forecast for the next {days} days in {loc}")
 if loc:
     filtered_data = getData(loc, days)
 
-    if options == "Temperature":
-        dates = [entry["dt_txt"] for entry in filtered_data]
-        temperatures = [entry["main"]["temp"] - 273.15 for entry in filtered_data]  # Convert from Kelvin to Celsius
+    if "error" in filtered_data:
+        st.error(f"Error: {filtered_data['error']}")
+    elif not filtered_data:
+        st.warning("No data available for the selected location and days.")
+    
+    else:
+        if options == "Temperature":
+            dates = [entry["dt_txt"] for entry in filtered_data]
+            temperatures = [entry["main"]["temp"] - 273.15 for entry in filtered_data]  # Convert from Kelvin to Celsius
 
-        figure = px.line(
-            x=dates, y=temperatures, 
-            labels={"x": "Date", "y": "Temperature (°C)"},
-            title=f"Temperature Trend for the Next {days} Days in {loc}"
-        )
-        figure.update_layout(
-            plot_bgcolor='rgba(0,0,0,0)',
-            paper_bgcolor='rgba(0,0,0,0)',
-            font_color='white'
-        )
-        st.plotly_chart(figure)
+            figure = px.line(
+                x=dates, y=temperatures, 
+                labels={"x": "Date", "y": "Temperature (°C)"},
+                title=f"Temperature Trend for the Next {days} Days in {loc}"
+            )
+            figure.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font_color='white'
+            )
+            st.plotly_chart(figure)
 
-    elif options == "Sky":
-        icons = {"Clear": "images/clear.png", "Clouds": "images/cloud.png", "Rain": "images/rain.png", "Snow": "images/snow.png"}
-        sky_conditions = [entry["weather"][0]["main"] for entry in filtered_data]
-        icon_paths = [icons[condition] for condition in sky_conditions]
+        elif options == "Sky":
+            icons = {"Clear": "images/clear.png", "Clouds": "images/cloud.png", "Rain": "images/rain.png", "Snow": "images/snow.png"}
+            sky_conditions = [entry["weather"][0]["main"] for entry in filtered_data]
+            icon_paths = [icons[condition] for condition in sky_conditions]
 
-        st.write("Sky Conditions Forecast:")
-        st.image(icon_paths, width=110, caption=sky_conditions)
+            st.write("Sky Conditions Forecast:")
+            st.image(icon_paths, width=110, caption=sky_conditions)
