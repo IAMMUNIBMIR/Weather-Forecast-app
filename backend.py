@@ -9,7 +9,7 @@ def getData(location,days=None):
     response = requests.get(url)
 
     if not response:
-        return {"error": "Location does not exist or API request failed."}
+        return {"error": "Location does not exist."}
     
     data = response.json()
     filtered_data = data["list"]
