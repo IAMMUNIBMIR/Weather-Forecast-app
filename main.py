@@ -85,7 +85,7 @@ if loc:
             st.plotly_chart(figure)
 
         elif options == "Sky":
-            icons = {"Clear": "images/clear.png", "Clouds": "images/cloud.png", "Rain": "images/rain.png", "Snow": "images/snow.png"}
+            icons = {"Sunny": "images/clear.png", "Cloudy": "images/cloud.png", "Rain": "images/rain.png", "Snow": "images/snow.png"}
             sky_conditions = [entry["weather"][0]["main"] for entry in filtered_data]
             icon_paths = [icons[condition] for condition in sky_conditions]
 
